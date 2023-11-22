@@ -2,7 +2,7 @@
 
 var SimpleChat = (function() {
     var chatOutput, messageInput;
-    var userBackgroundColor = '#ffffff'; // Default background color
+    var userBackgroundColor = '#ffffff';
 
     function appendMessage(message) {
         var messageElement = document.createElement("div");
@@ -10,7 +10,6 @@ var SimpleChat = (function() {
         messageElement.style.backgroundColor = userBackgroundColor; // Set background color
         chatOutput.appendChild(messageElement);
 
-        // Scroll to the bottom to show the latest message
         chatOutput.scrollTop = chatOutput.scrollHeight;
     }
 

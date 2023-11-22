@@ -4,17 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style.css">
     <title>Simple Chat</title>
 </head>
 
 <body>
-
     <script src="chat-library.js"></script>
     <script>
         SimpleChat.initialize("chat-output", "message-input");
-
-        // Prompt user for background color and set it
         var userColor = prompt("Choose a background color for the chat:");
         SimpleChat.setChatBackgroundColor(userColor || '#ffffff');
     </script>
