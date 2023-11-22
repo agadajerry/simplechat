@@ -9,9 +9,18 @@
 </head>
 
 <body>
-    <script src="chat-library.js"></script>
+
+    <div id="chat-container">
+        <div id="chat-output"></div>
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button onclick="SimpleChat.sendMessage()">Send</button>
+    </div>
+
+    <script src="/chat-library.js"></script>
     <script>
         SimpleChat.initialize("chat-output", "message-input");
+
+        // Prompt user for background color and set it
         var userColor = prompt("Choose a background color for the chat:");
         SimpleChat.setChatBackgroundColor(userColor || '#ffffff');
     </script>
