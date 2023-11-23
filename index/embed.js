@@ -1,5 +1,7 @@
 (function(d, t, userId) {
-    var BASE_URL = "https://whatsapp-bot-go3u.onrender.com"; // Replace with the actual URL of your Socket.IO server
+    var BASE_URL = "https://whatsapp-bot-go3u.onrender.com";
+    var isToggle = false;
+    const BOT_WAITING = `Bot is processing your request. Please wait...`
     var g = d.createElement(t),
         s = d.getElementsByTagName(t)[0];
     g.src = BASE_URL + "/socket.io/socket.io.js";
@@ -10,20 +12,30 @@
         var socket = io(BASE_URL);
 
         var chatContainer = document.createElement('div');
-        chatContainer.id = 'chat-container';
         chatContainer.innerHTML = `
-            <ul id="messages"></ul>
-            <form id="form" action="">
-                <input id="m" autocomplete="off" />
-                <button>Send</button>
+          <div class="body">
+            <button class="chatbot-toggler" onclick="handleToggle()">
+              <span class="toggle-icon">${isToggle ? '❌' : '💬'}</span>
+              <span class="material-symbols-outlined">close</span>
+            </button>
+            <div id="chat-container" class=${isToggle ? 'chatbot show-chatbot' : 'chatbot'}>
+              <header>
+                <h2>Chatbot</h2>
+                <span class="close-btn material-symbols-outlined" onclick="handleToggle()">
+                  close
+                </span>
+              </header>
+              <ul class="chatbox" id="messages"></ul>
+              <div class="chat-input">
+              <form id="form" action="">
+              <input id="m" autocomplete="off" />
+              <button onclick="handleSendMessage()">Send</button>
             </form>
-        `;
-
-
+              </div>
+            </div>
+          </div>
+      `;
         var toggleChatButton = document.createElement('button');
-        toggleChatButton.id = 'toggleChat';
-        toggleChatButton.textContent = 'Toggle Chat';
-
         document.body.appendChild(toggleChatButton);
         document.body.appendChild(chatContainer);
 
@@ -32,23 +44,34 @@
         const input = document.getElementById('m');
         const messages = document.getElementById('messages');
 
-        toggleChatButton.addEventListener('click', function() {
-            const isChatVisible = chatContainer.style.display !== 'none';
+        window.handleToggle = function() {
+            const chatContainer = document.getElementById('chat-container');
+            if (!chatContainer) {
+                console.error("Chat container not found");
+                return;
+            }
 
-            // Toggle the visibility of the chat container
-            chatContainer.style.display = isChatVisible ? 'none' : 'block';
-        });
+            const isChatVisible = chatContainer.classList.contains('show-chatbot');
 
+            if (isChatVisible) {
+                chatContainer.classList.remove('show-chatbot');
+            } else {
+                chatContainer.classList.add('show-chatbot');
+
+            }
+        };
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const message = input.value.trim();
 
             if (message !== '') {
-                // Send the message to the server
-                socket.emit('sendMessage', message);
-
-                // Clear the input field
+                const newMessage = {
+                    user: '',
+                    message: message,
+                    isOwnMsg: true,
+                };
+                socket.emit('sendMessage', newMessage);
                 input.value = '';
             }
 
@@ -56,18 +79,22 @@
         });
 
         socket.on('chat-message', function(msg) {
-            // Display incoming messages in the chat
-            console.log(msg)
+            console.log(msg);
             const li = document.createElement('li');
-            li.appendChild(document.createTextNode(msg.message));
+            li.className = `${msg.isOwnMsg ? 'chat outgoing' : 'chat incoming'}`;
+
+            const p = document.createElement('p');
+            p.className = msg.message === BOT_WAITING ? "bg-success text-white" : "";
+
+            p.appendChild(document.createTextNode(msg.message));
+
+            li.appendChild(p);
             messages.appendChild(li);
         });
 
 
-        // Your additional code to interact with the socket and use the userId
         socket.emit('setUserId', userId);
 
-        // Rest of your code remains the same...
-    };
 
+    };
 })(document, "script", "uniqueUserId");
