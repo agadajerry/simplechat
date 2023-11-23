@@ -1,13 +1,13 @@
 (function(d, t, userId) {
-    var BASE_URL = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"; // Replace with the actual URL of your Socket.IO server
+    var BASE_URL = "https://whatsapp-bot-go3u.onrender.com"; // Replace with the actual URL of your Socket.IO server
     var g = d.createElement(t),
         s = d.getElementsByTagName(t)[0];
-    g.src = BASE_URL;
+    g.src = BASE_URL + "/socket.io/socket.io.js";
     g.defer = true;
     g.async = true;
     s.parentNode.insertBefore(g, s);
     g.onload = function() {
-        var socket = io("https://whatsapp-bot-go3u.onrender.com");
+        var socket = io(BASE_URL);
 
         var chatContainer = document.createElement('div');
         chatContainer.id = 'chat-container';
