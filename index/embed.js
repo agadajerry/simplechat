@@ -19,12 +19,26 @@
             </form>
         `;
 
+
+        var toggleChatButton = document.createElement('button');
+        toggleChatButton.id = 'toggleChat';
+        toggleChatButton.textContent = 'Toggle Chat';
+
+        document.body.appendChild(toggleChatButton);
         document.body.appendChild(chatContainer);
 
         // Code to handle user input and display messages
         const form = document.getElementById('form');
         const input = document.getElementById('m');
         const messages = document.getElementById('messages');
+
+        toggleChatButton.addEventListener('click', function() {
+            const isChatVisible = chatContainer.style.display !== 'none';
+
+            // Toggle the visibility of the chat container
+            chatContainer.style.display = isChatVisible ? 'none' : 'block';
+        });
+
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -55,4 +69,5 @@
 
         // Rest of your code remains the same...
     };
+
 })(document, "script", "uniqueUserId");
