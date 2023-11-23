@@ -4,26 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Simple Chat</title>
+    <title>Socket.IO Chat</title>
+    <link rel=stylesheet type="text/css" href="./style.css">
 </head>
 
 <body>
-
-    <div id="chat-container">
-        <div id="chat-output"></div>
-        <input type="text" id="message-input" placeholder="Type your message...">
-        <button onclick="SimpleChat.sendMessage()">Send</button>
-    </div>
-
-    <script src="/chat-library.js"></script>
-    <script>
-        SimpleChat.initialize("chat-output", "message-input");
-
-        // Prompt user for background color and set it
-        var userColor = prompt("Choose a background color for the chat:");
-        SimpleChat.setChatBackgroundColor(userColor || '#ffffff');
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 </body>
+
 
 </html>
