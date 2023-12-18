@@ -290,5 +290,9 @@ textarea)::-webkit-scrollbar-thumb {
     background-color: #ccc;
 }
 
+iframe {
+    z-index: 2000000;
+}
+
 
 /* aanimation */
